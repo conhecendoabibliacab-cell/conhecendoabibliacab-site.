@@ -211,6 +211,48 @@ function setupAdminPublishNow() {
   });
 }
 
+// Admin: copiar e baixar conteúdo gerado em Markdown
+function setupAdminCopyAndDownload() {
+  const copyBtn = qs('#admin-copy-btn');
+  const downloadMdBtn = qs('#admin-download-md-btn');
+  const out = qs('#admin-gen-output');
+  if (!copyBtn || !downloadMdBtn || !out) return;
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      const payload = window._lastGeneratedContent;
+      const text = payload?.text || out.textContent || '';
+      if (!text) { out.textContent = 'Nenhum conteúdo para copiar. Gere primeiro.'; return; }
+      await navigator.clipboard.writeText(text);
+      out.textContent = 'Conteúdo copiado para a área de transferência.';
+    } catch (err) {
+      out.textContent = 'Falha ao copiar: ' + err.message;
+    }
+  });
+
+  downloadMdBtn.addEventListener('click', () => {
+    try {
+      const payload = window._lastGeneratedContent || {};
+      const text = payload.text || out.textContent || '';
+      const kind = payload.kind || 'devotional';
+      if (!text) { out.textContent = 'Nenhum conteúdo para baixar. Gere primeiro.'; return; }
+      const date = new Date().toISOString().slice(0,10);
+      const blob = new Blob([text], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `diario_${date}_${kind}.md`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      out.textContent = `Arquivo Markdown baixado: diario_${date}_${kind}.md`;
+    } catch (err) {
+      out.textContent = 'Falha ao baixar: ' + err.message;
+    }
+  });
+}
+
 // Configuração da busca bíblica em páginas de conteúdo
 function setupAIAndBible(suffix = '') {
   const form = qs(`#bible-form${suffix}`);
