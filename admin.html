@@ -53,6 +53,15 @@
             <option value="devotional">Devocional</option>
             <option value="study">Estudo bíblico</option>
           </select>
+          <label for="admin-gen-section" style="margin-left:8px;">Seção</label>
+          <select id="admin-gen-section">
+            <option value="">Geral</option>
+            <option value="Fé e esperança">Fé e esperança</option>
+            <option value="Perseverança">Perseverança</option>
+            <option value="Paz interior">Paz interior</option>
+            <option value="custom">Outra (personalizada)</option>
+          </select>
+          <input type="text" id="admin-gen-section-custom" placeholder="Informe a seção" style="margin-left:8px; display:none;" />
           <button type="submit" class="btn primary">Gerar agora</button>
         </form>
         <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
@@ -60,6 +69,7 @@
           <button type="button" id="admin-copy-btn" class="btn outline">Copiar Markdown</button>
           <button type="button" id="admin-download-md-btn" class="btn outline">Baixar .md</button>
         </div>
+        <p id="admin-gen-model" class="muted" style="margin-top:8px;">Modelo: —</p>
         <pre id="admin-gen-output" style="margin-top:12px; white-space:pre-wrap;"></pre>
       </div>
     </main>

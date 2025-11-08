@@ -170,18 +170,38 @@ function setupAdminGenerateContent() {
   const form = qs('#admin-gen-form');
   const kindSel = qs('#admin-gen-kind');
   const out = qs('#admin-gen-output');
+  const modelEl = qs('#admin-gen-model');
+  const sectionSel = qs('#admin-gen-section');
+  const sectionCustom = qs('#admin-gen-section-custom');
   if (!form || !kindSel || !out) return;
+
+  // Mostrar campo de seção personalizada quando apropriado
+  if (sectionSel && sectionCustom) {
+    const updateSectionVisibility = () => {
+      const isDevotional = (kindSel.value || 'devotional') === 'devotional';
+      const isCustom = sectionSel.value === 'custom';
+      sectionSel.style.display = isDevotional ? '' : 'none';
+      sectionCustom.style.display = isDevotional && isCustom ? '' : 'none';
+    };
+    kindSel.addEventListener('change', updateSectionVisibility);
+    sectionSel.addEventListener('change', updateSectionVisibility);
+    updateSectionVisibility();
+  }
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const kind = kindSel.value || 'devotional';
+    const section = (kind === 'devotional')
+      ? (sectionSel?.value === 'custom' ? (sectionCustom?.value.trim() || '') : (sectionSel?.value || ''))
+      : '';
     out.textContent = 'Gerando...';
     try {
       const res = await fetch(fnUrl(`/.netlify/functions/generate-content?kind=${encodeURIComponent(kind)}`));
       if (!res.ok) { throw new Error(`HTTP ${res.status}: ${await res.text()}`); }
       const data = await res.json();
       out.textContent = data.text || JSON.stringify(data);
+      if (modelEl) { modelEl.textContent = `Modelo: ${data.model || '—'}`; }
       // Guarda último conteúdo gerado para publicação manual
-      window._lastGeneratedContent = { kind, text: data.text || '' };
+      window._lastGeneratedContent = { kind, text: data.text || '', model: data.model || '', section };
     } catch (err) {
       out.textContent = 'Erro ao gerar conteúdo: ' + err.message;
     }
@@ -193,21 +213,30 @@ function setupAdminPublishNow() {
   const btn = qs('#admin-publish-btn');
   const kindSel = qs('#admin-gen-kind');
   const out = qs('#admin-gen-output');
+  const sectionSel = qs('#admin-gen-section');
+  const sectionCustom = qs('#admin-gen-section-custom');
   if (!btn || !kindSel || !out) return;
   btn.addEventListener('click', async () => {
     try {
       let payload = window._lastGeneratedContent;
       const kind = kindSel.value || 'devotional';
+      const section = (kind === 'devotional')
+        ? (sectionSel?.value === 'custom' ? (sectionCustom?.value.trim() || '') : (sectionSel?.value || ''))
+        : '';
       if (!payload || !payload.text) {
         out.textContent = 'Gerando conteúdo antes de publicar...';
         const res = await fetch(fnUrl(`/.netlify/functions/generate-content?kind=${encodeURIComponent(kind)}`));
         if (!res.ok) { throw new Error(`HTTP ${res.status}: ${await res.text()}`); }
         const data = await res.json();
-        payload = { kind, text: data.text || '' };
+        payload = { kind, text: data.text || '', section };
         window._lastGeneratedContent = payload;
       }
       const date = new Date().toISOString().slice(0,10);
-      const json = JSON.stringify({ date, kind: payload.kind, text: payload.text }, null, 2);
+      const base = { date, kind: payload.kind, text: payload.text };
+      if (payload.kind === 'devotional' && (payload.section || section)) {
+        base.section = payload.section || section;
+      }
+      const json = JSON.stringify(base, null, 2);
       const blob = new Blob([json], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -561,7 +590,9 @@ function initDailyContent() {
     const iso = todayISO();
     try {
       const data = await fetchJSON(`/content/${iso}.json`);
-      metaEl.textContent = `Data: ${data.date} • Tipo: ${data.kind}`;
+      const tipo = data.kind === 'devotional' ? 'Devocional' : (data.kind === 'study' ? 'Estudo bíblico' : (data.kind || '—'));
+      const sectionInfo = data.section ? ` • Seção: ${data.section}` : '';
+      metaEl.textContent = `Data: ${data.date} • Tipo: ${tipo}${sectionInfo}`;
       textEl.textContent = data.text || 'Sem texto.';
     } catch {
       // Fallback para index.json apontando ao mais recente
@@ -570,7 +601,9 @@ function initDailyContent() {
         const latestPath = idx.latest || (idx.meta && `${idx.meta.date}.json`);
         if (!latestPath) throw new Error('Índice sem latest');
         const data = await fetchJSON(`/content/${latestPath}`);
-        metaEl.textContent = `Data: ${data.date} • Tipo: ${data.kind} (mais recente)`;
+        const tipo = data.kind === 'devotional' ? 'Devocional' : (data.kind === 'study' ? 'Estudo bíblico' : (data.kind || '—'));
+        const sectionInfo = data.section ? ` • Seção: ${data.section}` : '';
+        metaEl.textContent = `Data: ${data.date} • Tipo: ${tipo}${sectionInfo} (mais recente)`;
         textEl.textContent = data.text || 'Sem texto.';
       } catch (err) {
         metaEl.textContent = 'Sem conteúdo diário disponível ainda.';
