@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Estudos Bíblicos — Navegação por livros e capítulos com leitura e pesquisa." />
+    <meta property="og:title" content="Estudos Bíblicos | Conhecendo a Bíblia" />
+    <meta property="og:description" content="Explore livros, abra capítulos e acompanhe seus estudos em uma interface clara." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <title>Estudos Bíblicos | 3CAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/">Início</a>
+          <a class="btn primary" href="/conteudos.html">Conteúdos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 24px 0;">
+      <nav class="breadcrumb card" style="margin-bottom: 12px; display:flex; align-items:center; gap:8px;">
+        <a href="/">Início</a>
+        <span>›</span>
+        <a href="/estudos-biblicos.html">Estudos Bíblicos</a>
+        <span id="studies-crumb-sep" hidden>›</span>
+        <span id="studies-crumb-book" hidden>Livro</span>
+      </nav>
+      <h2 class="section-title" style="color:#fff;">Estudos Bíblicos</h2>
+
+      <div class="card" style="margin-bottom: 12px;">
+        <div class="study-controls">
+          <label for="studies-search">Buscar livro</label>
+          <input type="text" id="studies-search" placeholder="Ex.: Salmos, João, Romanos" />
+        </div>
+      </div>
+
+      <div class="studies-layout">
+        <nav class="studies-nav card">
+          <div id="studies-root"></div>
+        </nav>
+        <section class="studies-content card">
+          <h3>Capítulo selecionado</h3>
+          <pre id="studies-chapter-output" style="white-space: pre-wrap;"></pre>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">© 3CAB</div>
+    </footer>
+
+    <script src="/scripts.js"></script>
+    <script>
+      initStudies();
+    </script>
+  </body>
+  </html>

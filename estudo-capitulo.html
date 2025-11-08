@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta id="meta-description" name="description" content="Estudo por capítulo — detalhes do texto bíblico e notas." />
+    <meta id="og-title" property="og:title" content="Estudo por Capítulo | Conhecendo a Bíblia" />
+    <meta id="og-description" property="og:description" content="Abra um capítulo específico e acompanhe o estudo com notas." />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary" />
+    <title>Estudo por Capítulo | Conhecendo a Bíblia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/">Início</a>
+          <a class="btn primary" href="/estudos-biblicos.html">Estudos Bíblicos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 24px 0;">
+      <nav class="breadcrumb card" style="margin-bottom: 12px; display:flex; align-items:center; gap:8px;">
+        <a href="/estudos-biblicos.html">Estudos Bíblicos</a>
+        <span>›</span>
+        <a id="breadcrumb-book" href="#">Livro</a>
+        <span>›</span>
+        <span id="breadcrumb-chapter">Capítulo</span>
+      </nav>
+
+      <section class="card">
+        <h2 id="chapter-title">Estudo do Capítulo</h2>
+        <p id="chapter-meta" class="meta"></p>
+      </section>
+
+      <section class="card" style="margin-top: 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <a id="prev-chapter" class="btn outline" href="#" aria-label="Capítulo anterior">◀ Capítulo anterior</a>
+        <a id="next-chapter" class="btn primary" href="#" aria-label="Próximo capítulo">Próximo capítulo ▶</a>
+      </section>
+
+      <section class="card" style="margin-top: 16px;">
+        <h3>Texto do capítulo</h3>
+        <pre id="chapter-text" style="white-space: pre-wrap;"></pre>
+      </section>
+
+      <section class="card" style="margin-top: 16px;">
+        <h3>Notas do estudo</h3>
+        <p id="study-notes">Este espaço pode trazer comentários, contexto histórico, aplicação prática e conexões com outras passagens.</p>
+      </section>
+
+      <section class="card" style="margin-top: 12px;">
+        <a id="back-to-book" class="btn outline" href="#">Voltar para o livro</a>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="container">© 3CAB</div></footer>
+
+    <script src="/scripts.js"></script>
+    <script>
+      (function() {
+        const params = new URLSearchParams(location.search);
+        const livro = params.get('livro');
+        const cap = params.get('cap');
+        const titleEl = document.getElementById('chapter-title');
+        const metaEl = document.getElementById('chapter-meta');
+        const textEl = document.getElementById('chapter-text');
+        const crumbBook = document.getElementById('breadcrumb-book');
+        const crumbChapter = document.getElementById('breadcrumb-chapter');
+        const backBtn = document.getElementById('back-to-book');
+        const prevLink = document.getElementById('prev-chapter');
+        const nextLink = document.getElementById('next-chapter');
+
+        if (!livro || !cap) {
+          titleEl.textContent = 'Estudo do Capítulo';
+          metaEl.textContent = 'Livro/capítulo não informados.';
+          return;
+        }
+
+        // Encontrar nome amigável do livro na estrutura
+        let bookName = livro;
+        try {
+          const allBooks = BIBLE_STRUCTURE.flatMap(g => g.books);
+          const found = allBooks.find(b => b.id === livro);
+          if (found) bookName = found.name;
+        } catch {}
+
+        titleEl.textContent = `Estudo: ${bookName} ${cap}`;
+        metaEl.textContent = `Livro: ${bookName} • Capítulo: ${cap}`;
+        crumbBook.textContent = bookName;
+        crumbBook.href = `/estudos-biblicos.html?livro=${encodeURIComponent(livro)}`;
+        crumbChapter.textContent = `Capítulo ${cap}`;
+        backBtn.href = `/estudos-biblicos.html?livro=${encodeURIComponent(livro)}`;
+        // Atualizar metatags dinâmicas
+        const metaDesc = document.getElementById('meta-description');
+        const ogTitle = document.getElementById('og-title');
+        const ogDesc = document.getElementById('og-description');
+        if (metaDesc) metaDesc.setAttribute('content', `Estudo: ${bookName} ${cap} — texto do capítulo e notas.`);
+        if (ogTitle) ogTitle.setAttribute('content', `Estudo: ${bookName} ${cap} | Conhecendo a Bíblia`);
+        if (ogDesc) ogDesc.setAttribute('content', `Veja ${bookName} ${cap}, leia o texto e acompanhe notas do estudo.`);
+        textEl.textContent = 'Carregando capítulo...';
+        loadChapter(livro, cap)
+          .then(text => textEl.textContent = text)
+          .catch(err => textEl.textContent = 'Erro ao carregar capítulo: ' + err.message);
+
+        // Navegação anterior/próximo
+        let maxChapters = Number(cap);
+        try {
+          const allBooks = BIBLE_STRUCTURE.flatMap(g => g.books);
+          const found = allBooks.find(b => b.id === livro);
+          if (found) maxChapters = found.chapters;
+        } catch {}
+
+        const prev = Number(cap) - 1;
+        const next = Number(cap) + 1;
+
+        if (prev >= 1) {
+          prevLink.href = `/estudo-capitulo.html?livro=${encodeURIComponent(livro)}&cap=${prev}`;
+          prevLink.classList.remove('disabled');
+          prevLink.setAttribute('aria-disabled', 'false');
+        } else {
+          prevLink.removeAttribute('href');
+          prevLink.classList.add('disabled');
+          prevLink.setAttribute('aria-disabled', 'true');
+        }
+
+        if (next <= maxChapters) {
+          nextLink.href = `/estudo-capitulo.html?livro=${encodeURIComponent(livro)}&cap=${next}`;
+          nextLink.classList.remove('disabled');
+          nextLink.setAttribute('aria-disabled', 'false');
+        } else {
+          nextLink.removeAttribute('href');
+          nextLink.classList.add('disabled');
+          nextLink.setAttribute('aria-disabled', 'true');
+        }
+      })();
+    </script>
+  </body>
+  </html>

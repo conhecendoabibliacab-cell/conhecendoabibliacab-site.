@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Esperança Renovada | 3CAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/conteudos.html">Conteúdos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding:24px 0;">
+      <article class="card" data-protected="true">
+        <h2>Esperança Renovada</h2>
+        <p>Devocional sobre renovar a esperança diariamente com base nas promessas de Deus.</p>
+      </article>
+
+      <aside class="card" style="margin-top:16px;">
+        <h4>Buscar passagem bíblica</h4>
+        <form id="bible-form-esperanca">
+          <div class="form-group">
+            <label for="bible-query-esperanca">Referência (ex.: João 3:16)</label>
+            <input type="text" id="bible-query-esperanca" placeholder="Romanos 8:28" />
+          </div>
+          <button class="btn primary" type="submit">Buscar</button>
+        </form>
+        <pre id="bible-output-esperanca" style="margin-top:12px; white-space:pre-wrap;"></pre>
+      </aside>
+    </main>
+
+    <footer class="site-footer"><div class="container">© 3CAB</div></footer>
+
+    <script src="/scripts.js"></script>
+    <script>
+      guardContentPage();
+      setupAIAndBible('-esperanca');
+    </script>
+  </body>
+</html>

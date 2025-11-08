@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | 3CAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/">Início</a>
+          <a class="btn primary" href="/conteudos.html">Conteúdos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 24px 0;">
+      <h2 class="section-title" style="color:#fff;">Área Administrativa</h2>
+      <div id="admin-content" class="card">
+        <h3>Configurações das APIs</h3>
+        <div class="grid" style="gap: 12px; margin-bottom: 16px;">
+          <div class="card" style="padding: 12px;">
+            <strong>IA (Gemini)</strong>
+            <p id="status-ai">Carregando status…</p>
+          </div>
+          <div class="card" style="padding: 12px;">
+            <strong>Bíblia</strong>
+            <p id="status-bible-base">Base: —</p>
+            <p id="status-bible-translation">Tradução: —</p>
+            <p id="status-bible-key">Chave: —</p>
+            <p id="status-bible-header">Header: —</p>
+          </div>
+        </div>
+
+        <h3>Testar Bíblia (Versículo)</h3>
+        <form id="admin-bible-form" class="form-inline">
+          <label for="admin-bible-query">Referência</label>
+          <input type="text" id="admin-bible-query" placeholder="Ex.: João 3:16, Salmos 23" />
+          <button type="submit" class="btn">Buscar</button>
+        </form>
+        <pre id="admin-bible-output" style="margin-top:12px; white-space:pre-wrap;"></pre>
+
+        <h3>Gerar Conteúdo Diário (IA)</h3>
+        <form id="admin-gen-form" class="form-inline">
+          <label for="admin-gen-kind">Tipo</label>
+          <select id="admin-gen-kind">
+            <option value="devotional">Devocional</option>
+            <option value="study">Estudo bíblico</option>
+          </select>
+          <button type="submit" class="btn primary">Gerar agora</button>
+        </form>
+        <div style="margin-top:8px;">
+          <button type="button" id="admin-publish-btn" class="btn">Publicar diário agora</button>
+        </div>
+        <pre id="admin-gen-output" style="margin-top:12px; white-space:pre-wrap;"></pre>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">© 3CAB</div>
+    </footer>
+
+    <script src="/scripts.js"></script>
+    <script>
+      guardAdminPage();
+      setupAdminConfigStatus();
+      setupAdminBibleTest();
+      setupAdminGenerateContent();
+    </script>
+  </body>
+</html>

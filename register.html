@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cadastro | 3CAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/">Início</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 24px 0;">
+      <div class="card">
+        <h2>Cadastro</h2>
+        <form id="register-form">
+          <div class="form-group">
+            <label for="register-email">E-mail</label>
+            <input type="email" id="register-email" placeholder="seu@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="register-password">Senha</label>
+            <input type="password" id="register-password" placeholder="mínimo 6 caracteres" />
+          </div>
+          <div class="form-group">
+            <label for="register-confirm">Confirmar senha</label>
+            <input type="password" id="register-confirm" placeholder="repita a senha" />
+          </div>
+          <button type="submit" class="btn primary">Cadastrar</button>
+        </form>
+      </div>
+    </main>
+
+    <footer class="site-footer"><div class="container">© 3CAB</div></footer>
+
+    <script src="/scripts.js"></script>
+  </body>
+</html>

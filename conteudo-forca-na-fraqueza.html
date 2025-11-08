@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Força na Fraqueza | 3CAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/conteudos.html">Conteúdos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding:24px 0;">
+      <article class="card" data-protected="true">
+        <h2>Força na Fraqueza</h2>
+        <p>Devocional sobre como Deus aperfeiçoa Seu poder em nossa fraqueza.</p>
+      </article>
+      <aside class="card" style="margin-top:16px;">
+        <h4>Buscar passagem bíblica</h4>
+        <form id="bible-form-fraqueza">
+          <div class="form-group">
+            <label for="bible-query-fraqueza">Referência</label>
+            <input type="text" id="bible-query-fraqueza" placeholder="2 Coríntios 12:9" />
+          </div>
+          <button class="btn primary" type="submit">Buscar</button>
+        </form>
+        <pre id="bible-output-fraqueza" style="margin-top:12px; white-space:pre-wrap;"></pre>
+      </aside>
+    </main>
+
+    <footer class="site-footer"><div class="container">© 3CAB</div></footer>
+    <script src="/scripts.js"></script>
+    <script>
+      guardContentPage();
+      setupAIAndBible('-fraqueza');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conteúdo Diário | 3CAB</title>
+    <meta name="description" content="Leitura diária: devocionais e estudos bíblicos gerados automaticamente." />
+    <meta property="og:title" content="Conteúdo Diário | 3CAB" />
+    <meta property="og:description" content="Leitura diária: devocionais e estudos bíblicos gerados automaticamente." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/conteudo-diario.html" />
+    <meta property="og:image" content="/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Conteúdo Diário | 3CAB" />
+    <meta name="twitter:description" content="Leitura diária: devocionais e estudos bíblicos gerados automaticamente." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/">Início</a>
+          <a class="btn" href="/conteudos.html">Conteúdos</a>
+          <a class="btn" href="/estudos-biblicos.html">Estudos Bíblicos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 24px 0;">
+      <nav class="breadcrumb">
+        <a href="/">Início</a>
+        <span>›</span>
+        <a href="/conteudos.html">Conteúdos</a>
+        <span>›</span>
+        <span>Conteúdo Diário</span>
+      </nav>
+      <h2 class="section-title" style="color:#fff;">Conteúdo Diário</h2>
+
+      <section class="card">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <div>
+            <div id="daily-meta" class="muted">Carregando...</div>
+          </div>
+          <div>
+            <button id="daily-reload" class="btn">Recarregar</button>
+          </div>
+        </div>
+        <div id="daily-text" style="white-space:pre-wrap; margin-top:12px;"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">© 3CAB</div>
+    </footer>
+
+    <script src="/scripts.js"></script>
+    <script>
+      initDailyContent();
+    </script>
+  </body>
+</html>

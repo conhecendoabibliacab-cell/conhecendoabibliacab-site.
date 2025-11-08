@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conteúdos | 3CAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content" style="padding: 14px 0;">
+        <div class="logo">3CAB</div>
+        <nav class="header-actions">
+          <a class="btn outline" href="/">Início</a>
+          <a class="btn primary" href="/estudos-biblicos.html">Estudos Bíblicos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 24px 0;">
+      <h2 class="section-title" style="color: #fff;">Conteúdos</h2>
+      <div class="content-layout">
+        <section>
+          <h3 style="color:#fff;">Devocionais</h3>
+          <div class="list">
+            <article class="item">
+              <img class="thumb" src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=1470&auto=format&fit=crop" alt="Céu iluminado" />
+              <div class="content">
+                <h4>Esperança Renovada</h4>
+                <p class="meta">Devocional • Fé e esperança</p>
+                <a class="btn link" href="/conteudo-esperanca-renovada.html">Ler conteúdo</a>
+              </div>
+            </article>
+            <article class="item">
+              <img class="thumb" src="https://images.unsplash.com/photo-1543363136-6e79c4e0f6c7?q=80&w=1470&auto=format&fit=crop" alt="Montanha" />
+              <div class="content">
+                <h4>Força na Fraqueza</h4>
+                <p class="meta">Devocional • Perseverança</p>
+                <a class="btn link" href="/conteudo-forca-na-fraqueza.html">Ler conteúdo</a>
+              </div>
+            </article>
+            <article class="item">
+              <img class="thumb" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1470&auto=format&fit=crop" alt="Lago sereno" />
+              <div class="content">
+                <h4>Descanso para a Alma</h4>
+                <p class="meta">Devocional • Paz interior</p>
+                <a class="btn link" href="/conteudo-descanso-para-a-alma.html">Ler conteúdo</a>
+              </div>
+            </article>
+          </div>
+
+          <h3 style="color:#fff; margin-top:24px;">Estudos</h3>
+          <div class="list">
+            <article class="item">
+              <img class="thumb" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1470&auto=format&fit=crop" alt="Livro aberto" />
+              <div class="content">
+                <h4>Salmos</h4>
+                <p class="meta">Estudo • Louvor e oração</p>
+                <a class="btn link" href="/estudo-salmos.html">Ver estudo</a>
+              </div>
+            </article>
+            <article class="item">
+              <img class="thumb" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1470&auto=format&fit=crop" alt="Cartas" />
+              <div class="content">
+                <h4>Cartas Paulinas</h4>
+                <p class="meta">Estudo • Doutrina e prática</p>
+                <a class="btn link" href="/estudo-cartas-paulinas.html">Ver estudo</a>
+              </div>
+            </article>
+            <article class="item">
+              <img class="thumb" src="https://images.unsplash.com/photo-1515165562835-c3b8cde9c395?q=80&w=1470&auto=format&fit=crop" alt="Caminho" />
+              <div class="content">
+                <h4>Parábolas de Jesus</h4>
+                <p class="meta">Estudo • Ensinos de Jesus</p>
+                <a class="btn link" href="/estudo-parabolas-jesus.html">Ver estudo</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <aside>
+          <div class="card">
+            <h4>Buscar passagem bíblica</h4>
+            <form id="bible-form-conteudos">
+              <div class="form-group">
+                <label for="bible-query-conteudos">Referência (ex.: João 3:16)</label>
+                <input type="text" id="bible-query-conteudos" placeholder="Mateus 5:9" />
+              </div>
+              <button class="btn primary" type="submit">Buscar</button>
+            </form>
+            <pre id="bible-output-conteudos" style="margin-top:12px; white-space:pre-wrap;"></pre>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">© 3CAB</div>
+    </footer>
+
+    <script src="/scripts.js"></script>
+    <script>setupAIAndBible('-conteudos');</script>
+  </body>
+</html>
