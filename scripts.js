@@ -5,6 +5,16 @@ const ADMIN_EMAILS = ["admin@exemplo.com", "conhecendoabibliacab@gmail.com"];
 function qs(sel, root = document) { return root.querySelector(sel); }
 function qsa(sel, root = document) { return Array.from(root.querySelectorAll(sel)); }
 
+// Utilitário: base de funções Netlify
+function fnUrl(path) {
+  try {
+    const host = location.hostname || '';
+    const isLocal = host === 'localhost' || host.startsWith('127.');
+    const base = isLocal ? 'https://conhecendoabibliacab.netlify.app' : '';
+    return `${base}${path}`;
+  } catch { return path; }
+}
+
 // Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -121,7 +131,7 @@ function setupAdminConfigStatus() {
   const bKeyEl = qs('#status-bible-key');
   const bHeadEl = qs('#status-bible-header');
   if (!aiEl || !bBaseEl || !bTransEl || !bKeyEl || !bHeadEl) return;
-  fetch('/.netlify/functions/config-status')
+  fetch(fnUrl('/.netlify/functions/config-status'))
     .then(r => r.json())
     .then(cfg => {
       aiEl.textContent = cfg.ai?.hasKey ? `Chave configurada (${cfg.ai.maskedKey})` : 'Sem chave configurada';
@@ -145,7 +155,8 @@ function setupAdminBibleTest() {
     if (!ref) return;
     out.textContent = 'Carregando...';
     try {
-      const res = await fetch(`/.netlify/functions/bible?ref=${encodeURIComponent(ref)}`);
+      const res = await fetch(fnUrl(`/.netlify/functions/bible?ref=${encodeURIComponent(ref)}`));
+      if (!res.ok) { throw new Error(`HTTP ${res.status}: ${await res.text()}`); }
       const data = await res.json();
       out.textContent = data.text || JSON.stringify(data);
     } catch (err) {
@@ -165,7 +176,8 @@ function setupAdminGenerateContent() {
     const kind = kindSel.value || 'devotional';
     out.textContent = 'Gerando...';
     try {
-      const res = await fetch(`/.netlify/functions/generate-content?kind=${encodeURIComponent(kind)}`);
+      const res = await fetch(fnUrl(`/.netlify/functions/generate-content?kind=${encodeURIComponent(kind)}`));
+      if (!res.ok) { throw new Error(`HTTP ${res.status}: ${await res.text()}`); }
       const data = await res.json();
       out.textContent = data.text || JSON.stringify(data);
       // Guarda último conteúdo gerado para publicação manual
@@ -188,7 +200,8 @@ function setupAdminPublishNow() {
       const kind = kindSel.value || 'devotional';
       if (!payload || !payload.text) {
         out.textContent = 'Gerando conteúdo antes de publicar...';
-        const res = await fetch(`/.netlify/functions/generate-content?kind=${encodeURIComponent(kind)}`);
+        const res = await fetch(fnUrl(`/.netlify/functions/generate-content?kind=${encodeURIComponent(kind)}`));
+        if (!res.ok) { throw new Error(`HTTP ${res.status}: ${await res.text()}`); }
         const data = await res.json();
         payload = { kind, text: data.text || '' };
         window._lastGeneratedContent = payload;
