@@ -1,0 +1,10 @@
+{
+  "name": "conhecendoabibliacab-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de devocionais diários com funções Netlify.",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
